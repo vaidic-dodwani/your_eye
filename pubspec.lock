@@ -49,14 +49,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  debounce_throttle:
-    dependency: "direct main"
-    description:
-      name: debounce_throttle
-      sha256: c95cf47afda975fc507794a52040a16756fb2f31ad3027d4e691c41862ff5692
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -80,6 +72,11 @@ packages:
     version: "2.0.1"
   flutter_test:
     dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -131,14 +128,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.2"
-  simple_observable:
-    dependency: transitive
+  perfect_volume_control:
+    dependency: "direct main"
     description:
-      name: simple_observable
-      sha256: b392795c48f8b5f301b4c8f73e15f56e38fe70f42278c649d8325e859a783301
+      name: perfect_volume_control
+      sha256: "9bc513e4a2b6151f7d04fc917271c40bdd44cbe67224d52a314302879d2a30f8"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "1.0.5"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -192,6 +189,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
+  toast:
+    dependency: "direct main"
+    description:
+      name: toast
+      sha256: "12433091e3e5a25b3a25f670126e42547c9ade135de30ad9ace45d1ddccd57c9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   vector_math:
     dependency: transitive
     description:
@@ -200,14 +205,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  volume_controller:
+  vibration:
     dependency: "direct main"
     description:
-      name: volume_controller
-      sha256: "3bcaadd0e3298286c4ef3b758a3ea44fc98a9abe24d0e7ef087bfab72a4b6924"
+      name: vibration
+      sha256: "1dc9d1a0d62b12f1276eb7146b21585db5fe01771b8ca0234fefdf74ba51f963"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.6"
+    version: "1.7.6"
 sdks:
   dart: ">=2.19.6 <3.0.0"
   flutter: ">=1.20.0"

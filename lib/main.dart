@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:volume_controller/volume_controller.dart';
+import 'package:perfect_volume_control/perfect_volume_control.dart';
+import 'package:toast/toast.dart';
+import 'package:vibration/vibration.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +22,10 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({super.key});
+
+  double currentvol = 0.5;
   String temp = "";
+  String ans = "";
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -28,14 +33,44 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
-    VolumeController().showSystemUI = false;
-    VolumeController().listener((volume) {
-      List<String> chars = widget.temp.split('');
-      chars.sort();
-      String sortedWord = chars.join();
-      log(braileToText(sortedWord).toString());
+    Future.delayed(Duration.zero, () async {
+      widget.currentvol = await PerfectVolumeControl.getVolume();
     });
 
+    PerfectVolumeControl.stream.listen((volume) async {
+      if (volume != widget.currentvol) {
+        //only execute button type check once time
+
+        if (volume > widget.currentvol) {
+          List<String> chars = widget.temp.split('');
+          chars.sort();
+          String sortedWord = chars.join();
+          if (braileToText(sortedWord) != -1) {
+            widget.ans += braileToText(sortedWord).toString();
+            widget.temp = "";
+          } else {
+            Vibration.vibrate(duration: 1000);
+            widget.temp = "";
+          }
+          log(widget.ans);
+        } else {
+          if (widget.ans.isNotEmpty) {
+            widget.ans = widget.ans.substring(0, widget.ans.length - 1);
+          }
+        }
+
+        if (widget.ans.isNotEmpty) {
+          ToastContext().init(context);
+          Toast.show(widget.ans,
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+        } else {
+          ToastContext().init(context);
+          Toast.show("empty",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+        }
+      }
+      widget.currentvol = volume;
+    });
     super.initState();
   }
 
@@ -49,16 +84,22 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: size.width * 0.5,
               height: size.height * 0.5,
-              child: InkWell(onTap: () {
-                widget.temp = widget.temp + "1";
-              }),
+              child: InkWell(
+                onTap: () {
+                  widget.temp = widget.temp + "1";
+                },
+                highlightColor: Colors.black,
+              ),
             ),
             SizedBox(
               width: size.width * 0.5,
               height: size.height * 0.5,
-              child: InkWell(onTap: () {
-                widget.temp = widget.temp + "2";
-              }),
+              child: InkWell(
+                onTap: () {
+                  widget.temp = widget.temp + "2";
+                },
+                highlightColor: Colors.black,
+              ),
             )
           ],
         ),
@@ -67,16 +108,22 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: size.width * 0.5,
               height: size.height * 0.5,
-              child: InkWell(onTap: () {
-                widget.temp = widget.temp + "3";
-              }),
+              child: InkWell(
+                onTap: () {
+                  widget.temp = widget.temp + "3";
+                },
+                highlightColor: Colors.black,
+              ),
             ),
             SizedBox(
               width: size.width * 0.5,
               height: size.height * 0.5,
-              child: InkWell(onTap: () {
-                widget.temp = widget.temp + "4";
-              }),
+              child: InkWell(
+                onTap: () {
+                  widget.temp = widget.temp + "4";
+                },
+                highlightColor: Colors.black,
+              ),
             )
           ],
         )
