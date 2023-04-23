@@ -1,8 +1,10 @@
 import 'dart:developer';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:perfect_volume_control/perfect_volume_control.dart';
 import 'package:toast/toast.dart';
 import 'package:vibration/vibration.dart';
+import 'package:your_eye/splashScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,9 +15,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: SplashScreen(),
     );
   }
 }
@@ -26,6 +28,7 @@ class MyHomePage extends StatefulWidget {
   double currentvol = 0.5;
   String temp = "";
   String ans = "";
+  int currentLength = 0;
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -47,10 +50,26 @@ class _MyHomePageState extends State<MyHomePage> {
           String sortedWord = chars.join();
           if (braileToText(sortedWord) != -1) {
             widget.ans += braileToText(sortedWord).toString();
+
             widget.temp = "";
+
+            if (widget.currentLength == 3 && widget.ans.length == 4) {
+              AssetsAudioPlayer.newPlayer().open(
+                Audio("assets/whole pin accept.wav"),
+                showNotification: false,
+              );
+            } else {
+              AssetsAudioPlayer.newPlayer().open(
+                Audio("assets/single number accept.wav"),
+                showNotification: false,
+              );
+              //play single correct
+            }
           } else {
             Vibration.vibrate(duration: 1000);
             widget.temp = "";
+
+//play wrong sound
           }
           log(widget.ans);
         } else {
@@ -70,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       }
       widget.currentvol = volume;
+      widget.currentLength = widget.ans.length;
     });
     super.initState();
   }
